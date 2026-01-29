@@ -1,0 +1,3 @@
+C:\Users\CyberNekromant\Desktop\аферов практические\впф\Auth\Auth\obj\Release\Auth.csproj.AssemblyReference.cache
+C:\Users\CyberNekromant\Desktop\аферов практические\впф\Auth\Auth\obj\Release\App.g.cs
+C:\Users\CyberNekromant\Desktop\аферов практические\впф\Auth\Auth\obj\Release\Auth_MarkupCompile.cache

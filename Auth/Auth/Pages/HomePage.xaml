@@ -1,0 +1,11 @@
+﻿<Page x:Class="Auth.Pages.HomePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Title="HomePage">
+    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+        <TextBlock Text="Добро пожаловать!" FontSize="24" Margin="0,0,0,30"/>
+
+        <Button x:Name="BtnBack" Content="Назад" Click="BtnBack_Click" Width="120" Margin="5"/>
+        <Button x:Name="BtnExit" Content="Выход" Click="BtnExit_Click" Width="120" Margin="5"/>
+    </StackPanel>
+</Page>

@@ -1,0 +1,21 @@
+﻿<Page x:Class="Auth.Pages.LoginPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Title="Авторизация">
+    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Width="250">
+        <TextBlock Text="Логин:" Margin="0,5,0,0"/>
+        <TextBox x:Name="TbLogin" Margin="0,5"/>
+
+        <TextBlock Text="Пароль:" Margin="0,5,0,0"/>
+        <Grid>
+            <PasswordBox x:Name="PbPassword" Margin="0,5"/>
+            <TextBox x:Name="TbPasswordView" Margin="0,5" Visibility="Collapsed"/>
+        </Grid>
+
+        <CheckBox x:Name="CbShowPass" Content="Показать пароль" 
+                  Checked="CbShowPass_Toggle" Unchecked="CbShowPass_Toggle"/>
+
+        <Button x:Name="BtnLogin" Content="Войти" Click="BtnLogin_Click" Margin="0,15" Height="30"/>
+        <TextBlock Text="admin: 1234 | user: 1111" FontSize="10" Foreground="Gray" HorizontalAlignment="Center"/>
+    </StackPanel>
+</Page>
