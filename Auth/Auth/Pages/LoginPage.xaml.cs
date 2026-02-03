@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.SqlClient;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
@@ -20,29 +21,66 @@ namespace Auth.Pages
 
         private void BtnLogin_Click(object sender, RoutedEventArgs e)
         {
-             string login = TbLogin.Text.Trim(); 
-            string password = CbShowPass.IsChecked == true ? TbPasswordView.Text : PbPassword.Password; 
+            string login = TbLogin.Text.Trim();
+            string password = PbPassword.Password;
 
-            if (login == "admin" && password == "1234")
+            // Database connection string - adjust according to your setup
+            string connectionString = "Data Source=.;Initial Catalog=AuthNavDb;Integrated Security=True";
+
+            try
             {
-                attempts = 0;
-                 this.NavigationService.Navigate(new AdminPage()); 
-            }
-            else if (login == "user" && password == "1111")
-            {
-                attempts = 0;
-                this.NavigationService.Navigate(new HomePage()); 
-            }
-            else
-            {
-                attempts++;
-                if (attempts >= 3)
+                using (SqlConnection connection = new SqlConnection(connectionString))
                 {
-                    BtnLogin.IsEnabled = false; 
-                    timer.Start();
-                     MessageBox.Show("Превышено количество попыток! Блокировка 10 сек."); 
+                    // Create SQL query to check credentials
+                    string query = "SELECT Role FROM Users WHERE Login = @login AND Password = @password";
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        // Add parameters to prevent SQL injection
+                        command.Parameters.AddWithValue("@login", login);
+                        command.Parameters.AddWithValue("@password", password);
+
+                        connection.Open();
+                        object result = command.ExecuteScalar();
+
+                        if (result != null)
+                        {
+                            // Valid credentials - get the user role
+                            string role = result.ToString();
+
+                            attempts = 0;  // Reset attempts on successful login
+
+                            // Navigate based on user role
+                            if (role == "Admin")
+                            {
+                                this.NavigationService.Navigate(new AdminPage());
+                            }
+                            else
+                            {
+                                this.NavigationService.Navigate(new HomePage());
+                            }
+                        }
+                        else
+                        {
+                            // Invalid credentials
+                            attempts++;
+                            if (attempts >= 3)
+                            {
+                                BtnLogin.IsEnabled = false;
+                                timer.Start();
+                                MessageBox.Show("Превышено количество попыток! Блокировка 10 сек.");
+                            }
+                            else
+                            {
+                                MessageBox.Show("Неверный логин или пароль!");
+                            }
+                        }
+                    }
                 }
-                else { MessageBox.Show("Неверный логин или пароль!"); }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ошибка подключения к базе данных: " + ex.Message);
             }
         }
 
